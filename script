@@ -8,40 +8,33 @@
 // ==/UserScript==
 
 (function() {
-    'use strict';
+  'use strict';
 
-    // Функция для нажатия на кнопку
-    function simulateKeyPress(keyCode) {
-        var eventObj = document.createEventObject
-            ? document.createEventObject()
-            : document.createEvent("Events");
-        
-        if (eventObj.initEvent) {
-            eventObj.initEvent("keydown", true, true);
-        }
+  // Функция для нажатия на кнопку
+  function simulateKeyPress(keyCode) {
+    var eventObj = new Event("keydown");
+    eventObj.keyCode = keyCode;
+    eventObj.which = keyCode;
+    eventObj.ctrlKey = false;
+    eventObj.shiftKey = false;
+    eventObj.altKey = false;
+    eventObj.metaKey = false;
 
-        eventObj.keyCode = keyCode;
-        eventObj.which = keyCode;
-        eventObj.ctrlKey = false;
-        eventObj.shiftKey = false;
-        eventObj.altKey = false;
-        eventObj.metaKey = false;
+    document.dispatchEvent(eventObj);
+  }
 
-        document.dispatchEvent(eventObj);
-    }
+  // Функция для автоматического прохождения игры
+  function autoPlayGame() {
+    setInterval(function() {
+      // Здесь можно добавить логику для определения, какую кнопку нажимать
+      // Например, можно использовать функцию simulateKeyPress с соответствующим кодом кнопки
+      // Ниже приведен пример для нажатия кнопки влево (код кнопки: 37)
+      simulateKeyPress(37);
+    }, 1000); // Задержка между нажатиями в миллисекундах
+  }
 
-    // Функция для автоматического прохождения игры
-    function autoPlayGame() {
-        setInterval(function() {
-            // Здесь можно добавить логику для определения, какую кнопку нажимать
-            // Например, можно использовать функцию simulateKeyPress с соответствующим кодом кнопки
-            // Ниже приведен пример для нажатия кнопки влево (код кнопки: 37)
-            simulateKeyPress(37);
-        }, 1000); // Задержка между нажатиями в миллисекундах
-    }
-
-    // Запускаем автоматическое прохождение игры после загрузки страницы
-    window.addEventListener('load', function() {
-        autoPlayGame();
-    });
+  // Запускаем автоматическое прохождение игры после загрузки страницы
+  window.addEventListener('load', function() {
+    autoPlayGame();
+  });
 })();
